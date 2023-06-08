@@ -1,6 +1,6 @@
 import styles from "./NoteList.css";
 
-export default function NoteList({ notes }) {
+function NoteList({ notes }) {
   return (
     <ul id="note-list">
       {notes.map((note, index) => (
@@ -30,6 +30,8 @@ export default function NoteList({ notes }) {
     </ul>
   );
 }
+
+export default NoteList;
 
 export function links() {
   return [{ rel: "stylesheet", href: styles }];
