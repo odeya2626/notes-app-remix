@@ -11,6 +11,12 @@ import {
 import styles from "./styles/main.css";
 import MainNavigation from "./components/MainNavigation";
 
+// export const meta = () => ({
+//   charset: "utf-8",
+//   title: "Remix Notes",
+//   viewport: "width=device-width,initial-scale=1",
+// });
+
 export default function App() {
   return (
     <html lang="en">
