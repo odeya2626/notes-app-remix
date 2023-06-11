@@ -3,19 +3,24 @@ import { getStoredNotes, storeNotes } from "../data/notes";
 import NoteList, { links as noteListLinks } from "../components/NoteList";
 import { useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
+import { requireUserSession } from "~/data/auth.server";
 
 export default function NotesPage() {
   const { notes } = useLoaderData();
+  const hasNotes = notes && notes.length > 0;
   return (
     <main>
       <NewNote />
-      <NoteList notes={notes} />
+      {hasNotes && <NoteList notes={notes} />}
+      {!hasNotes && <p className="info-message">No notes yet</p>}
     </main>
   );
 }
 
-export async function loader() {
+export async function loader({ request }) {
+  await requireUserSession(request);
   const notes = await getStoredNotes();
+
   return { notes };
 }
 

@@ -7,7 +7,10 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { useRouteError } from "@remix-run/react";
 
+import { getUserFromSession } from "./data/auth.server";
+import Error from "./components/utils/Error";
 import styles from "./styles/main.css";
 import MainNavigation from "./components/MainNavigation";
 
@@ -17,10 +20,11 @@ import MainNavigation from "./components/MainNavigation";
 //   viewport: "width=device-width,initial-scale=1",
 // });
 
-export default function App() {
+function Document({ title, children }) {
   return (
     <html lang="en">
       <head>
+        <title>{title}</title>
         <Meta />
         <Links />
       </head>
@@ -28,8 +32,7 @@ export default function App() {
         <header>
           <MainNavigation />
         </header>
-
-        <Outlet />
+        {children}
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
@@ -38,58 +41,33 @@ export default function App() {
   );
 }
 
-import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
-export function CatchBoundary() {
-  const error = useRouteError();
-  console.error(error);
+export default function App() {
   return (
-    <html lang="en">
-      <head>
-        <Meta />
-        <Links />
-        <title>{error.message}</title>
-      </head>
-      <body>
-        <header>
-          <MainNavigation />
-        </header>
-        <main className="error">
-          <h1>An error occurred!</h1>
-          <p>{error.data?.message || "Something went wrong"}</p>
-          <p>
-            Back to <Link to="/">safety</Link>!
-          </p>
-        </main>
-      </body>
-    </html>
+    <Document>
+      <Outlet />
+    </Document>
   );
+}
+export function loader({ request }) {
+  return getUserFromSession(request);
 }
 
 export function ErrorBoundary() {
   const error = useRouteError();
   return (
-    <html lang="en">
-      <head>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <header>
-          <MainNavigation />
-        </header>
-        <main className="error">
-          <h1>An error occurred!</h1>
+    <Document title="Error">
+      <Error title={"An error occurred!"}>
+        <main>
           <p>{error.message}</p>
           <p>
             Back to <Link to="/">safety</Link>!
           </p>
         </main>
-
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
+      </Error>
+      <ScrollRestoration />
+      <Scripts />
+      <LiveReload />
+    </Document>
   );
 }
 

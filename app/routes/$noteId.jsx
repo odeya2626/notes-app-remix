@@ -6,7 +6,7 @@ import { getStoredNotes } from "~/data/notes";
 
 export default function NotePage() {
   const note = useLoaderData();
-  console.log(note);
+
   return (
     <main id="note-details">
       <header>
@@ -21,6 +21,7 @@ export default function NotePage() {
 }
 
 export async function loader({ params }) {
+  // await requireUserSession(request);
   const notes = await getStoredNotes();
   const selectedNote = notes.find((note) => note.id === params.noteId);
   if (!selectedNote) {
