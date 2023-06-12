@@ -59,6 +59,14 @@ export async function requireUserSession(request) {
   return userId;
 }
 
+export async function getUsername(userId) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+  return user.username;
+}
 export async function signup({ email, password, username }) {
   console.log("signup");
   const existingUser = await prisma.user.findFirst({ where: { email } });

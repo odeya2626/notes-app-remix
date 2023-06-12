@@ -37,7 +37,7 @@ export default function NoteListItem({ note, index }) {
   };
   if (fetcher.state !== "idle") {
     return (
-      <article className="note-item locked">
+      <article className="note-link locked">
         <p>Deleting...</p>
       </article>
     );

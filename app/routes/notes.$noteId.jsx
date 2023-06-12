@@ -30,6 +30,7 @@ export async function loader({ params }) {
     const note = await getNoteById(noteId);
     return note;
   } catch (error) {
+    console.log(error);
     return json({ message: "Note not found", status: 404 });
   }
 }
@@ -48,6 +49,7 @@ export async function action({ params, request }) {
     }
     return redirect(`/notes`);
   } catch (error) {
+    console.log(error);
     return json({ message: error.message, status: 404 });
   }
 }

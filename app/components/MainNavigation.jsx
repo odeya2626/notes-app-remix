@@ -2,7 +2,7 @@ import { NavLink, Link, useLoaderData, Form } from "@remix-run/react";
 import Logo from "./utils/Logo";
 
 export default function MainNavigation() {
-  const userId = useLoaderData();
+  const userId = useLoaderData()?.userId;
   return (
     <header id="main-header">
       <Logo />
@@ -19,7 +19,7 @@ export default function MainNavigation() {
           <li>
             {userId && (
               <Form method="delete" action="/logout" id="logout-form">
-                <button className="cta-alt">Logout</button>
+                <button className="cta">Logout</button>
               </Form>
             )}
             {!userId && (

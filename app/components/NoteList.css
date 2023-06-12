@@ -13,7 +13,7 @@
 }
 
 .note {
-  width: 30%;
+  width: 40%;
   background-color: var(--color-primary-700);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   padding: 1rem;
@@ -38,6 +38,9 @@
   padding-bottom: 0.5rem;
   margin-bottom: 0.5rem;
   border-bottom: 2px solid var(--color-primary-300);
+}
+.note-meta > :first-child {
+  padding: 0.5rem;
 }
 
 .note h2 {
@@ -64,14 +67,16 @@
 .note-link {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: center;
   position: relative;
 }
-#notes-actions {
-  margin: 2rem 0;
+
+.note-actions {
+  display: block;
   position: absolute;
   bottom: 0;
-  left: 0;
+  right: 0;
 }
 #delete-icon {
   color: gray !important;
@@ -88,4 +93,9 @@
   background-color: var(--color-primary-100);
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
   color: var(--color-gray-400);
+}
+
+.note-link.locked {
+  justify-content: center;
+  background-color: var(--color-primary-200);
 }

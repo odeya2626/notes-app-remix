@@ -9,16 +9,10 @@ import {
 } from "@remix-run/react";
 import { useRouteError } from "@remix-run/react";
 
-import { getUserFromSession } from "./data/auth.server";
+import { getUserFromSession, getUsername } from "./data/auth.server";
 import Error from "./components/utils/Error";
 import styles from "./styles/main.css";
 import MainNavigation from "./components/MainNavigation";
-
-// export const meta = () => ({
-//   charset: "utf-8",
-//   title: "Remix Notes",
-//   viewport: "width=device-width,initial-scale=1",
-// });
 
 function Document({ title, children }) {
   return (
@@ -48,8 +42,11 @@ export default function App() {
     </Document>
   );
 }
-export function loader({ request }) {
-  return getUserFromSession(request);
+export async function loader({ request }) {
+  const userId = await getUserFromSession(request);
+  if (!userId) return { userId: null, username: null };
+  const username = await getUsername(userId);
+  return { userId, username };
 }
 
 export function ErrorBoundary() {
