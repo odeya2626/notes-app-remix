@@ -3,6 +3,7 @@ import { json } from "@remix-run/node";
 
 import styles from "../styles/notePage.css";
 import { getStoredNotes } from "~/data/notes";
+import { getNoteById } from "~/data/notes.server";
 
 export default function NotePage() {
   const note = useLoaderData();
@@ -21,18 +22,15 @@ export default function NotePage() {
 }
 
 export async function loader({ params }) {
-  // await requireUserSession(request);
-  const notes = await getStoredNotes();
-  const selectedNote = notes.find((note) => note.id === params.noteId);
-  if (!selectedNote) {
-    throw json(
-      {
-        message: `Could not find note for id ${params.noteId}`,
-      },
-      { status: 404 }
-    );
+  try {
+    const noteId = Number(params.noteId);
+    const note = await getNoteById(noteId);
+
+    return note;
+  } catch (error) {
+    console.log(error);
+    return json({ message: "Note not found", status: 404 });
   }
-  return selectedNote;
 }
 export function links() {
   return [{ rel: "stylesheet", href: styles }];

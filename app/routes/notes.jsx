@@ -1,25 +1,37 @@
 import NewNote, { links as newNoteLinks } from "../components/NewNote";
 import { getStoredNotes, storeNotes } from "../data/notes";
 import NoteList, { links as noteListLinks } from "../components/NoteList";
-import { useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 import { requireUserSession } from "~/data/auth.server";
+import { FaPlus } from "react-icons/fa";
+import { getNotes } from "~/data/notes.server";
 
 export default function NotesPage() {
   const { notes } = useLoaderData();
   const hasNotes = notes && notes.length > 0;
   return (
-    <main>
-      <NewNote />
-      {hasNotes && <NoteList notes={notes} />}
-      {!hasNotes && <p className="info-message">No notes yet</p>}
-    </main>
+    <>
+      <Outlet />
+      <main>
+        <section id="notes-actions">
+          <Link to="/notes/add" style={{ color: "white" }}>
+            <FaPlus />
+            <span>Add Note</span>
+          </Link>
+        </section>
+
+        {hasNotes && <NoteList notes={notes} />}
+        {!hasNotes && <p className="info-message">No notes yet</p>}
+      </main>
+    </>
   );
 }
 
 export async function loader({ request }) {
-  await requireUserSession(request);
-  const notes = await getStoredNotes();
+  const userId = await requireUserSession(request);
+  const notes = await getNotes(userId);
+  console.log(notes);
 
   return { notes };
 }

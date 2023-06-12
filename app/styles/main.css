@@ -157,6 +157,7 @@ button {
 }
 
 .modal {
+  padding: 0;
   position: fixed;
   top: 25vh;
   width: 30rem;

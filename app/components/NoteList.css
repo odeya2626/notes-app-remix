@@ -16,9 +16,8 @@
   width: 30%;
   background-color: var(--color-primary-700);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 4px;
-  animation: fade-blur-in 1s ease-out forwards;
   transition: all 0.3s ease-out;
 }
 
@@ -53,4 +52,40 @@
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
+}
+#no-notes {
+  text-align: center;
+}
+
+#no-notes a {
+  color: var(--color-primary-100);
+}
+
+.note-link {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: relative;
+}
+#notes-actions {
+  margin: 2rem 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+#delete-icon {
+  color: gray !important;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+#delete-icon:hover {
+  color: white !important;
+  transform: scale(1.1);
+}
+#note-form {
+  border-radius: 6px;
+  background-color: var(--color-primary-100);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+  color: var(--color-gray-400);
 }
