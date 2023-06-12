@@ -35,40 +35,19 @@ export async function loader({ request }) {
   return { notes };
 }
 
-export async function action({ request }) {
-  const formData = await request.formData();
-  const noteData = Object.fromEntries(formData);
-  //add validation
+// export async function action({ request }) {
+//   const formData = await request.formData();
+//   const noteData = Object.fromEntries(formData);
+//   //add validation
 
-  if (noteData.title.length < 3) {
-    return { message: "Title must be at least 3 characters long", status: 400 };
-  }
-  const storedNotes = await getStoredNotes();
-  noteData.id = new Date().toISOString();
-  const updatedNotes = [...storedNotes, noteData];
-  await storeNotes(updatedNotes);
-  return redirect("/notes");
-}
+//   if (noteData.title.length < 3) {
+//     return { message: "Title must be at least 3 characters long", status: 400 };
+//   }
+
+//   await storeNotes(updatedNotes);
+//   return redirect("/notes");
+// }
 
 export function links() {
   return [...newNoteLinks(), ...noteListLinks()];
-}
-
-// export function meta() {
-//   return {
-//     title: "Notes",
-//     description: "A list of notes",
-//   };
-// }
-
-export function CatchBoundary() {
-  const caughtResponse = useRouteError();
-  console.log(caughtResponse);
-  return (
-    <main>
-      <NewNote />
-      <h1>An error occurred!</h1>
-      <p className="info-message">{error.message}</p>
-    </main>
-  );
 }

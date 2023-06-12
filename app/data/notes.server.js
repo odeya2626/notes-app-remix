@@ -41,15 +41,16 @@ export async function getNoteById(id) {
     throw new Error(e.message);
   }
 }
-export async function updateNoteById({ id, title, content }) {
+export async function updateNoteById(noteId, noteData) {
   try {
+    console.log(noteId, "id", noteData, "updatedNote");
     const note = await prisma.note.update({
       where: {
-        id,
+        id: noteId,
       },
       data: {
-        title,
-        content,
+        title: noteData.title,
+        content: noteData.content,
       },
     });
     return note;
