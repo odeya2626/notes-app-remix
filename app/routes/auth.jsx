@@ -1,4 +1,3 @@
-import { redirect } from "@remix-run/node";
 import AuthForm from "~/components/auth/AutthForm";
 import { login, signup } from "~/data/auth.server";
 import { validateCredentials } from "~/data/validation.server";
@@ -14,7 +13,6 @@ export async function action({ request }) {
 
   const formData = await request.formData();
   const userData = Object.fromEntries(formData);
-  //add validation
   try {
     validateCredentials(userData);
   } catch (error) {
@@ -23,10 +21,8 @@ export async function action({ request }) {
   }
   try {
     if (authMode === "login") {
-      //login
       return await login(userData);
     } else {
-      //signup
       return await signup(userData);
     }
   } catch (error) {

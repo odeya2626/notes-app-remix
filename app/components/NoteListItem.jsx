@@ -15,7 +15,7 @@ export default function NoteListItem({ note, index }) {
             <li>#{index + 1}</li>
             <li>
               <time dateTime={note.id}>
-                {new Date(note.id).toLocaleDateString("en-US", {
+                {new Date(note.createdAt).toLocaleDateString("en-US", {
                   day: "numeric",
                   month: "short",
                   year: "numeric",
