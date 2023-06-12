@@ -31,7 +31,6 @@ export default function NotesPage() {
 export async function loader({ request }) {
   const userId = await requireUserSession(request);
   const notes = await getNotes(userId);
-  console.log(notes);
 
   return { notes };
 }

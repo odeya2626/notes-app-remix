@@ -8,7 +8,7 @@ export async function addNote({ title, content, userId }) {
         userId,
       },
     });
-    console.log("success adding");
+
     return note;
   } catch (e) {
     throw new Error(e.message);

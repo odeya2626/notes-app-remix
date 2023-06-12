@@ -30,7 +30,7 @@ export default function NoteListItem({ note, index }) {
         <p>{note.content}</p>
       </article>
       <div className="note-actions">
-        <div onClick={(event) => event.stopPropagation()} id="delete-icon">
+        <div onClick={(e) => handleDeleteNote(e)} id="delete-icon">
           <FaRegTrashAlt />
         </div>
       </div>

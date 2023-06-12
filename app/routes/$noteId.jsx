@@ -28,7 +28,6 @@ export async function loader({ params }) {
 
     return note;
   } catch (error) {
-    console.log(error);
     return json({ message: "Note not found", status: 404 });
   }
 }

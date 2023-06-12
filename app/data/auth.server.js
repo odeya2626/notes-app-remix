@@ -29,7 +29,7 @@ export async function getUserFromSession(request) {
   const session = await sessionStorage.getSession(
     request.headers.get("Cookie")
   );
-  console.log("getUserFromSession");
+
   const userId = session.get("userId");
   if (!userId) {
     return null;
@@ -52,7 +52,7 @@ export async function destroyUserSession(request) {
 export async function requireUserSession(request) {
   console.log("requireUserSession");
   const userId = await getUserFromSession(request);
-  console.log("userId");
+
   if (!userId) {
     throw redirect("/auth?mode=login");
   }
@@ -60,6 +60,7 @@ export async function requireUserSession(request) {
 }
 
 export async function signup({ email, password, username }) {
+  console.log("signup");
   const existingUser = await prisma.user.findFirst({ where: { email } });
 
   if (existingUser) {
@@ -79,7 +80,9 @@ export async function signup({ email, password, username }) {
 }
 
 export async function login({ email, password }) {
-  const existingUser = await prisma.user.findFirst({ where: { email } });
+  console.log("login");
+  const existingUser = await prisma.user.findUnique({ where: { email } });
+  console.log(existingUser, "existingUser");
 
   if (!existingUser) {
     const error = new Error(
@@ -87,6 +90,7 @@ export async function login({ email, password }) {
     );
     error.status = 401;
     throw error;
+    // return error;
   }
 
   const passwordCorrect = await compare(password, existingUser.password);
