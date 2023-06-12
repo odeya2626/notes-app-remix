@@ -14,7 +14,7 @@ export default function NotesPage() {
     <>
       <Outlet />
       <main>
-        <section id="notes-actions">
+        <section>
           <Link to="/notes/add" style={{ color: "white" }}>
             <FaPlus />
             <span>Add Note</span>
