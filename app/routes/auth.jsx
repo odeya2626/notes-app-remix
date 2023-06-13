@@ -16,7 +16,6 @@ export async function action({ request }) {
   try {
     validateCredentials(userData);
   } catch (error) {
-    console.log(error);
     return error;
   }
   try {

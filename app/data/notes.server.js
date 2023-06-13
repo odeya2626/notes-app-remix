@@ -14,16 +14,40 @@ export async function addNote({ title, content, userId }) {
     throw new Error(e.message);
   }
 }
-export async function getNotes(userId) {
+export async function getNotes(userId, query = "") {
   try {
-    const notes = await prisma.note.findMany({
-      where: {
-        userId,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    const notes = query
+      ? await prisma.note.findMany({
+          where: {
+            userId,
+            OR: [
+              {
+                title: {
+                  contains: query,
+                  mode: "insensitive",
+                },
+              },
+              {
+                content: {
+                  contains: query,
+                  mode: "insensitive",
+                },
+              },
+            ],
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        })
+      : await prisma.note.findMany({
+          where: {
+            userId,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        });
+
     return notes;
   } catch (e) {
     throw new Error(e.message);

@@ -1,21 +1,11 @@
+import { Form, useMatches, useNavigation } from "@remix-run/react";
 import styles from "./NewNote.css";
-import {
-  Form,
-  useActionData,
-  useLoaderData,
-  useMatches,
-  useNavigation,
-  useParams,
-} from "@remix-run/react";
-
 export default function NewNote() {
   const navigation = useNavigation();
   const matches = useMatches();
   const note = matches.find(
     (match) => match.id === "routes/notes.$noteId"
   )?.data;
-
-  const validationErrors = useActionData();
 
   const isSubmitting = navigation.state === "submitting";
 
@@ -44,9 +34,7 @@ export default function NewNote() {
           required
         />
       </p>
-      {validationErrors?.message && (
-        <p style={{ color: "white" }}>{validationErrors.message}</p>
-      )}
+
       <div className="form-actions">
         <button disabled={isSubmitting}>
           {isSubmitting ? "Adding..." : note?.title ? "Edit Note" : "Add Note"}
@@ -55,7 +43,6 @@ export default function NewNote() {
     </Form>
   );
 }
-
 export function links() {
   return [{ rel: "stylesheet", href: styles }];
 }

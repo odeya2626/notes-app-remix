@@ -1,4 +1,4 @@
-import { useNavigate } from "@remix-run/react";
+import { useNavigate, useSearchParams } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 
 import styles from "../styles/notePage.css";
@@ -9,12 +9,13 @@ import {
 } from "~/data/notes.server";
 import Modal from "~/components/utils/Modal";
 import NewNote from "~/components/NewNote";
-import { isValidTitle } from "~/data/validation.server";
 
 export default function NotePage() {
+  const [params] = useSearchParams();
+
   const navigate = useNavigate();
   function closeHandler() {
-    navigate("..");
+    navigate(`..?${params.toString()}`);
   }
 
   return (
@@ -30,7 +31,6 @@ export async function loader({ params }) {
     const note = await getNoteById(noteId);
     return note;
   } catch (error) {
-    console.log(error);
     return json({ message: "Note not found", status: 404 });
   }
 }
@@ -44,12 +44,10 @@ export async function action({ params, request }) {
     if (request.method === "DELETE") {
       await deleteNoteById(noteId);
     } else if (request.method === "PATCH") {
-      isValidTitle(noteData.title);
       await updateNoteById(noteId, noteData);
     }
     return redirect(`/notes`);
   } catch (error) {
-    console.log(error);
     return json({ message: error.message, status: 404 });
   }
 }

@@ -1,11 +1,11 @@
-import { Link, useFetcher } from "@remix-run/react";
+import { Link, useFetcher, useLocation } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 export default function NoteListItem({ note, index }) {
+  const location = useLocation();
   const [formattedDate, setFormattedDate] = useState("");
   const fetcher = useFetcher();
-  const date = new Date(note.createdAt);
 
   useEffect(() => {
     const formatDate = () => {
@@ -45,7 +45,10 @@ export default function NoteListItem({ note, index }) {
 
   return (
     <div>
-      <Link to={"/notes/" + note.id} className="note-link">
+      <Link
+        to={{ pathname: "/notes/" + note.id, search: location.search }}
+        className="note-link"
+      >
         <article>
           <header>
             <ul className="note-meta">

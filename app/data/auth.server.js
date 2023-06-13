@@ -67,7 +67,6 @@ export async function getUsername(userId) {
   return user.username;
 }
 export async function signup({ email, password, username }) {
-  console.log("signup");
   const existingUser = await prisma.user.findFirst({ where: { email } });
 
   if (existingUser) {
@@ -87,9 +86,7 @@ export async function signup({ email, password, username }) {
 }
 
 export async function login({ email, password }) {
-  console.log("login");
   const existingUser = await prisma.user.findUnique({ where: { email } });
-  console.log(existingUser, "existingUser");
 
   if (!existingUser) {
     const error = new Error(

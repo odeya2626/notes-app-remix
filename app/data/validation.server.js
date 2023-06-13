@@ -23,10 +23,3 @@ export function validateCredentials(input) {
     throw validationErrors;
   }
 }
-
-export function isValidTitle(value) {
-  if (value.length < 3) {
-    throw { message: "Title must be at least 3 characters long", status: 400 };
-  }
-  return;
-}

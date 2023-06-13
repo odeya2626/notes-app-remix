@@ -1,10 +1,13 @@
-import { links as newNoteLinks } from "../components/NewNote";
+// import { links as newNoteLinks } from "../components/NewNote";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import { FaPlus } from "react-icons/fa";
 
 import NoteList, { links as noteListLinks } from "../components/NoteList";
+import { links as SearchLinks } from "../components/utils/Search";
+import { links as newNoteLinks } from "../components/NewNote";
 import { requireUserSession } from "~/data/auth.server";
 import { getNotes } from "~/data/notes.server";
+import SearchBar from "~/components/utils/Search";
 
 export default function NotesPage() {
   const { notes } = useLoaderData();
@@ -14,8 +17,9 @@ export default function NotesPage() {
     <>
       <Outlet />
       <main>
+        <SearchBar />
         <section>
-          <Link to="/notes/add" style={{ color: "white" }}>
+          <Link to="/notes/add" className="cta-alt">
             <FaPlus />
             <span>Add Note</span>
           </Link>
@@ -30,24 +34,14 @@ export default function NotesPage() {
 
 export async function loader({ request }) {
   const userId = await requireUserSession(request);
-  const notes = await getNotes(userId);
+  const url = new URL(request.url);
+  const search = new URLSearchParams(url.search);
+  const query = search.get("query") || "";
+  const notes = await getNotes(userId, query);
 
   return { notes };
 }
 
-// export async function action({ request }) {
-//   const formData = await request.formData();
-//   const noteData = Object.fromEntries(formData);
-//   //add validation
-
-//   if (noteData.title.length < 3) {
-//     return { message: "Title must be at least 3 characters long", status: 400 };
-//   }
-
-//   await storeNotes(updatedNotes);
-//   return redirect("/notes");
-// }
-
 export function links() {
-  return [...newNoteLinks(), ...noteListLinks()];
+  return [...SearchLinks(), ...newNoteLinks(), ...noteListLinks()];
 }

@@ -28,8 +28,6 @@ async function seed() {
     const createdNotes = await Promise.all(
       notesData.map((note) => prisma.note.create({ data: note }))
     );
-
-    console.log("Seed data created successfully.");
   } catch (error) {
     console.error("Error creating seed data:", error);
     process.exit(1);
