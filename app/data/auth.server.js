@@ -50,7 +50,6 @@ export async function destroyUserSession(request) {
 }
 
 export async function requireUserSession(request) {
-  console.log("requireUserSession");
   const userId = await getUserFromSession(request);
 
   if (!userId) {
@@ -60,6 +59,7 @@ export async function requireUserSession(request) {
 }
 
 export async function getUsername(userId) {
+  console.log(userId, "userId");
   const user = await prisma.user.findUnique({
     where: {
       id: userId,

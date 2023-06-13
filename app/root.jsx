@@ -12,13 +12,21 @@ import { useRouteError } from "@remix-run/react";
 import { getUserFromSession, getUsername } from "./data/auth.server";
 import Error from "./components/utils/Error";
 import styles from "./styles/main.css";
+import favicon from "../public/favicon.png";
 import MainNavigation from "./components/MainNavigation";
 
-function Document({ title, children }) {
+export const meta = () => {
+  return [
+    { title: "My Notes" },
+    { name: "viewport", content: "width=device-width,initial-scale=1" },
+    { charSet: "utf-8" },
+  ];
+};
+
+function Document({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>{title}</title>
         <Meta />
         <Links />
       </head>
@@ -51,8 +59,11 @@ export async function loader({ request }) {
 
 export function ErrorBoundary() {
   const error = useRouteError();
+  console.log(error);
+  if (!error.message) error.message = "An error occurred!";
+
   return (
-    <Document title="Error">
+    <Document>
       <Error title={"An error occurred!"}>
         <main>
           <p>{error.message}</p>
@@ -69,5 +80,12 @@ export function ErrorBoundary() {
 }
 
 export function links() {
-  return [{ rel: "stylesheet", href: styles }];
+  return [
+    { rel: "stylesheet", href: styles },
+    {
+      rel: "icon",
+      href: favicon,
+      type: "image/png",
+    },
+  ];
 }

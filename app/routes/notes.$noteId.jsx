@@ -26,7 +26,7 @@ export default function NotePage() {
 
 export async function loader({ params }) {
   try {
-    const noteId = Number(params.noteId);
+    const noteId = params.noteId;
     const note = await getNoteById(noteId);
     return note;
   } catch (error) {
@@ -37,7 +37,7 @@ export async function loader({ params }) {
 
 export async function action({ params, request }) {
   try {
-    const noteId = Number(params.noteId);
+    const noteId = params.noteId;
     const formData = await request.formData();
     const noteData = Object.fromEntries(formData);
 
