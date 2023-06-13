@@ -59,7 +59,6 @@ export async function requireUserSession(request) {
 }
 
 export async function getUsername(userId) {
-  console.log(userId, "userId");
   const user = await prisma.user.findUnique({
     where: {
       id: userId,
