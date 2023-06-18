@@ -59,7 +59,6 @@ export async function loader({ request }) {
 
 export function ErrorBoundary() {
   const error = useRouteError();
-  console.log(error);
   if (!error.message) error.message = "An error occurred!";
 
   return (
